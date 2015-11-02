@@ -9,10 +9,12 @@ struct BlockBase {
   // C - Corner
   // E - Edge
   // F - Empty
+  BlockBase(std::vector<std::vector<bool>> block) {
+    ConstructMatrix(block);
+  }
   std::vector<std::vector<BLK>> matrix;
 
 protected:
-  std::vector<std::vector<bool>> block;
   void ConstructMatrix(std::vector<std::vector<bool>> block) {
     // Allocate matrix with block
     int height = block.size() + 2;
@@ -62,39 +64,36 @@ protected:
 };
 
 struct B1O : BlockBase {
-  B1O() {
-    ConstructMatrix({
+  B1O() : BlockBase({
       { 1 }
-    });
-  }
+  }) {};
 };
 
 struct B2O : BlockBase {
-  B2O() {
-    ConstructMatrix({
+  B2O() : BlockBase({
       { 1, 1 }
-    });
-  }
+  }) {};
 };
 
 struct B3O : BlockBase {
-  B3O() {
-    ConstructMatrix({
+  B3O() : BlockBase({
       { 1, 1, 1 }
-    });
-  }
+  }) {};
 };
 
-struct B3P : public BlockBase {
-  B3P() {
-    ConstructMatrix({
+struct B3P : BlockBase {
+  B3P() : BlockBase({
       { 1, 1 },
       { 1, 0 }
-    });
-  }
+  }) {};
 };
-//
-//struct B4O : public BlockBase {};
+
+struct B4O : BlockBase {
+  B4O() : BlockBase({
+      { 1, 1, 1, 1 }
+    }) {};
+};
+
 //struct B4P : public BlockBase {};
 //struct B4Q : public BlockBase {};
 //struct B4R : public BlockBase {};
