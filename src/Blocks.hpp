@@ -4,11 +4,7 @@
 #include <algorithm>
 
 struct BlockBase {
-  enum BLK { B, C, E, F };
-  // B - Block
-  // C - Corner
-  // E - Edge
-  // F - Empty
+  enum BLK { Block, Corner, Edge, Empty };
   BlockBase(std::vector<std::vector<bool>> block) {
     ConstructMatrix(block);
   }
@@ -23,10 +19,10 @@ protected:
     for (int i = 0; i < height; ++i) {
       for (int j = 0; j < width; ++j) {
         if (i == 0 || i == height - 1 || j == 0 || j == width - 1) {
-          matrix[i][j] = BLK::F;
+          matrix[i][j] = BLK::Empty;
         }
         else {
-          matrix[i][j] = (block[i - 1][j - 1] == 1) ? BLK::B : BLK::F;
+          matrix[i][j] = (block[i - 1][j - 1] == 0) ? BLK::Empty : BLK::Block;
         }
       }
     }
@@ -38,24 +34,24 @@ protected:
     int jMax = width - 1;
     for (int i = 0; i < height; ++i) {
       for (int j = 0; j < width; ++j) {
-        if (matrix[i][j] == BLK::B) {
+        if (matrix[i][j] == BLK::Block) {
           continue;
         }
         if (
-          (matrix[std::max(i - 1, iMin)][j] == BLK::B) ||
-          (matrix[std::min(i + 1, iMax)][j] == BLK::B) ||
-          (matrix[i][std::max(j - 1, jMin)] == BLK::B) ||
-          (matrix[i][std::min(j + 1, jMax)] == BLK::B)
+          (matrix[std::max(i - 1, iMin)][j] == BLK::Block) ||
+          (matrix[std::min(i + 1, iMax)][j] == BLK::Block) ||
+          (matrix[i][std::max(j - 1, jMin)] == BLK::Block) ||
+          (matrix[i][std::min(j + 1, jMax)] == BLK::Block)
           ) {
-          matrix[i][j] = BLK::E;
+          matrix[i][j] = BLK::Edge;
         }
         else if (
-          (matrix[std::max(i - 1, iMin)][std::max(j - 1, jMin)] == BLK::B) ||
-          (matrix[std::max(i - 1, iMin)][std::min(j + 1, jMax)] == BLK::B) ||
-          (matrix[std::min(i + 1, iMax)][std::max(j - 1, jMin)] == BLK::B) ||
-          (matrix[std::min(i + 1, iMax)][std::min(j + 1, jMax)] == BLK::B)
+          (matrix[std::max(i - 1, iMin)][std::max(j - 1, jMin)] == BLK::Block) ||
+          (matrix[std::max(i - 1, iMin)][std::min(j + 1, jMax)] == BLK::Block) ||
+          (matrix[std::min(i + 1, iMax)][std::max(j - 1, jMin)] == BLK::Block) ||
+          (matrix[std::min(i + 1, iMax)][std::min(j + 1, jMax)] == BLK::Block)
           ) {
-          matrix[i][j] = BLK::C;
+          matrix[i][j] = BLK::Corner;
         }
       }
     }
