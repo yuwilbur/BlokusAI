@@ -1,47 +1,6 @@
 SET(SOURCES
   main.cpp
-  Blocks/BlockBase.cpp
-  Blocks/BlockBase.hpp
-  Blocks/B1O.hpp
-  Blocks/B1O.cpp
-  Blocks/B2O.hpp
-  Blocks/B2O.cpp
-  Blocks/B3O.hpp
-  Blocks/B3O.cpp
-  Blocks/B3P.hpp
-  Blocks/B3P.cpp
-  Blocks/B4O.hpp
-  Blocks/B4O.cpp
-  Blocks/B4P.hpp
-  Blocks/B4P.cpp
-  Blocks/B4Q.hpp
-  Blocks/B4Q.cpp
-  Blocks/B4R.hpp
-  Blocks/B4R.cpp
-  Blocks/B4S.hpp
-  Blocks/B4S.cpp
-  Blocks/B5O.hpp
-  Blocks/B5O.cpp
-  Blocks/B5P.hpp
-  Blocks/B5P.cpp
-  Blocks/B5Q.hpp
-  Blocks/B5Q.cpp
-  Blocks/B5S.hpp
-  Blocks/B5S.cpp
-  Blocks/B5T.hpp
-  Blocks/B5T.cpp
-  Blocks/B5U.hpp
-  Blocks/B5U.cpp
-  Blocks/B5V.hpp
-  Blocks/B5V.cpp
-  Blocks/B5W.hpp
-  Blocks/B5W.cpp
-  Blocks/B5X.hpp
-  Blocks/B5X.cpp
-  Blocks/B5Y.hpp
-  Blocks/B5Y.cpp
-  Blocks/B5Z.hpp
-  Blocks/B5Z.cpp
+  Blocks.hpp
   )
 
 # Set main.cpp as executable
