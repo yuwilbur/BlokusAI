@@ -1,35 +1,62 @@
 #pragma once
 #include <stdio.h>
 #include <vector>
+#include <algorithm>
 
 struct BlockBase {
-  enum BLK { B, E, F, C };
-  // X - Block
-  // E - Edge
-  // F - Free space
+  enum BLK { B, C, E, F };
+  // B - Block
   // C - Corner
+  // E - Edge
+  // F - Empty
   std::vector<std::vector<BLK>> matrix;
 
 protected:
   std::vector<std::vector<bool>> block;
   void ConstructMatrix(std::vector<std::vector<bool>> block) {
-    // Allocate space on matrix
-    int width = block.size() + 2;
-    int height = block[0].size() + 2;
+    // Allocate matrix with block
+    int height = block.size() + 2;
+    int width = block[0].size() + 2;
+    matrix.resize(height, std::vector<BLK>(width));
     for (int i = 0; i < height; ++i) {
-      std::vector<BLK> row(width);
-      std::fill(row.begin(), row.end(), BLK::F);
-      matrix.push_back(row);
-    }
-
-    // Fill in block
-    for (int i = 1; i < height - 1; ++i) {
-      for (int j = 1; j < width - 1; ++j) {
-        matrix[i][j] = (block[i - 1][j - 1] == 1) ? BLK::B : BLK::F;
+      for (int j = 0; j < width; ++j) {
+        if (i == 0 || i == height - 1 || j == 0 || j == width - 1) {
+          matrix[i][j] = BLK::F;
+        }
+        else {
+          matrix[i][j] = (block[i - 1][j - 1] == 1) ? BLK::B : BLK::F;
+        }
       }
     }
 
-    // Fill in edge space
+    // Fill in edge and corner space
+    int iMin = 0;
+    int iMax = height - 1;
+    int jMin = 0;
+    int jMax = width - 1;
+    for (int i = 0; i < height; ++i) {
+      for (int j = 0; j < width; ++j) {
+        if (matrix[i][j] == BLK::B) {
+          continue;
+        }
+        if (
+          (matrix[std::max(i - 1, iMin)][j] == BLK::B) ||
+          (matrix[std::min(i + 1, iMax)][j] == BLK::B) ||
+          (matrix[i][std::max(j - 1, jMin)] == BLK::B) ||
+          (matrix[i][std::min(j + 1, jMax)] == BLK::B)
+          ) {
+          matrix[i][j] = BLK::E;
+        }
+        else if (
+          (matrix[std::max(i - 1, iMin)][std::max(j - 1, jMin)] == BLK::B) ||
+          (matrix[std::max(i - 1, iMin)][std::min(j + 1, jMax)] == BLK::B) ||
+          (matrix[std::min(i + 1, iMax)][std::max(j - 1, jMin)] == BLK::B) ||
+          (matrix[std::min(i + 1, iMax)][std::min(j + 1, jMax)] == BLK::B)
+          ) {
+          matrix[i][j] = BLK::C;
+        }
+      }
+    }
 
   }
 };
@@ -42,7 +69,7 @@ struct B1O : BlockBase {
   }
 };
 
-struct B2O : public BlockBase {
+struct B2O : BlockBase {
   B2O() {
     ConstructMatrix({
       { 1, 1 }
@@ -50,7 +77,7 @@ struct B2O : public BlockBase {
   }
 };
 
-struct B3O : public BlockBase {
+struct B3O : BlockBase {
   B3O() {
     ConstructMatrix({
       { 1, 1, 1 }
